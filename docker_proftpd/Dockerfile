@@ -23,10 +23,15 @@ RUN pacman -Syu --noconfirm
 # Installation de proftpd à partir de l'archive que l'on a créé en amont
 
 RUN pacman -U proftpd-2\:1.3.8a-1-x86_64.pkg.tar.zst --noconfirm 
+RUN pacman -S openssh --noconfirm
 
 # Copie du fichier de configuration pour n'autoriser que l'écriture de fichiers .html
 
 COPY proftpd.conf /etc/proftpd.conf
+
+RUN ssh-keygen -A
+RUN mkdir -p /etc/proftpd/authorized_keys
+COPY id_rsa.pub /etc/proftpd/authorized_keys/dev
 
 # Systemctl n'est pas utilisable ici, on doit utiliser cette commande à la place
 

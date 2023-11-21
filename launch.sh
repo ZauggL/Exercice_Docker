@@ -28,5 +28,5 @@ docker ps -aq | xargs docker rm -f
 
 # On crée les conteneurs en les liants par le dossier /var/partage. On redirige les ports du localhost vers les ports du réseau virtuel
 
-docker run -v /var/partage-docker:/home/dev -p 21:21 -d --name proftpd my_proftpd
+docker run -v /var/partage-docker:/home/dev -p 2222:2222 -d --name proftpd my_proftpd
 docker run -v /var/partage-docker:/var/www/html -p 443:443 -d --name nginx my_nginx
