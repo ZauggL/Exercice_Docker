@@ -12,9 +12,9 @@ fi
 if [ -z /var/partage-docker ];then
 	
 	mkdir /var/partage-docker
-	chown $SUDO_USER: /var/partage-docker
 fi
 
+chown $SUDO_USER: /var/partage-docker
 
 
 # On construit les images à partir des Dockerfiles correspondants
