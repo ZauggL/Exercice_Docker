@@ -24,6 +24,10 @@ RUN pacman -Syu --noconfirm
 
 RUN pacman -U proftpd-2\:1.3.8a-1-x86_64.pkg.tar.zst --noconfirm 
 
+# Copie du fichier de configuration pour n'autoriser que l'écriture de fichiers .html
+
+COPY proftpd.conf /etc/proftpd.conf
+
 # Systemctl n'est pas utilisable ici, on doit utiliser cette commande à la place
 
 CMD ["proftpd","--nodaemon"]
