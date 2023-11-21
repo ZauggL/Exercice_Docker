@@ -7,6 +7,11 @@ if [ $USER != root ];then
 	exit 1	
 fi	
 
+if [ -z $1 ];then
+	echo "il faut mettre votre clé publique en argument"
+	exit
+fi
+
 # Si le fichier de partage n'existe pas, on doit le créer 
 
 if [ -z /var/partage-docker ];then
@@ -16,6 +21,7 @@ fi
 
 chown $SUDO_USER: /var/partage-docker
 
+ssh-keygen -e -f $1 | grep -v "omment" > docker_proftpd/id_rsa.pub
 
 # On construit les images à partir des Dockerfiles correspondants
 
