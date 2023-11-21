@@ -14,7 +14,7 @@ RUN pacman -S nginx openssl --noconfirm
 
 COPY nginx.conf /etc/nginx/
 
-RUN mkdir /var/www/ && mkdir /var/www/html
+RUN mkdir -p /var/www/html
 
 COPY index.html /var/www/html/
 
