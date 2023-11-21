@@ -1,45 +1,29 @@
+FROM archlinux 
 
-
-FROM archlinux
+# Il faut un mot de passe à l'utilisateur dev
 
 COPY mdp /
+
+# Plutôt que d'installer proftpd pendant le build, on le fait une fois pour toute et on copie l'archive dans le dossier git
 
 COPY proftpd-2\:1.3.8a-1-x86_64.pkg.tar.zst /
 
 RUN useradd dev -m 
 
+# Le mot de passe de dev doit être écrit deux fois dans le fichier mdp pour la confirmation
+
 RUN passwd dev < mdp
 
-#RUN pacman-key --init
+# Mise à jour des dépots pacman
+
+RUN pacman-key --init
 
 RUN pacman -Syu --noconfirm
 
-
-#RUN pacman -S base-devel git mariadb-libs postgresql-libs hiredis libsodium --noconfirm
-
-#RUN git clone https://aur.archlinux.org/proftpd.git /home/dev/proftpd
-
-#RUN ls -l /home/dev/proftpd 
-
-#RUN chown -R dev: /home/dev
-
-#USER dev
-
-#WORKDIR /home/dev/proftpd
-#RUN whoami
-
-#ENV BUILDDIR /home/dev/proftpd
-#ENV PKGDEST /home/dev/proftpd
-#ENV SRCDEST /home/dev/proftpd
-#RUN makepkg -s
-
-#USER root
-#RUN exit
-
-#RUN cd /home/dev/proftpd
+# Installation de proftpd à partir de l'archive que l'on a créé en amont
 
 RUN pacman -U proftpd-2\:1.3.8a-1-x86_64.pkg.tar.zst --noconfirm 
 
-#RUN pacman -S proftpd --noconfirm
+# Systemctl n'est pas utilisable ici, on doit utiliser cette commande à la place
 
 CMD ["proftpd","--nodaemon"]
