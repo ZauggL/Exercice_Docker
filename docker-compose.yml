@@ -1,0 +1,37 @@
+services:
+  per_nginx:
+    build: ./docker_nginx
+    image: my_nginx
+    networks:
+      my_net:
+        ipv4_address: 1.2.3.2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - my_vol:/var/www/html
+
+  proftpd:
+    build: ./docker_proftpd
+    image: my_proftpd
+    networks:
+      my_net:
+        ipv4_address: 1.2.3.3
+    ports:
+      - "2222:2222"
+    volumes:
+      - my_vol:/home/dev
+    environment:
+      - VAR=valeur
+
+volumes:
+  my_vol:
+
+networks:
+  my_net:
+    name: my_net
+    ipam:
+      driver: default
+      config:
+        - subnet: 1.2.3.0/24
+          gateway: 1.2.3.1
